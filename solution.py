@@ -62,3 +62,61 @@ class ReviewTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)
+
+#Step 2: Run the full test suite
+!python3 solution.py
+#Expected: Ran 6 tests ... OK
+
+#Step 3: Run one test on its own
+!python3 solution.py ReviewTests.test_tamper_rejected
+!python3 solution.py ReviewTests.test_chain_length
+#Expected: Ran 1 test ... OK for each.
+
+#Step 4: Syntax check
+!python3 -m py_compile solution.py && echo "Syntax OK"
+#This only checks syntax, not behavior.
+
+#Step 5: See the chain and the tampering yourself
+from solution import create_chain, verify
+import pprint
+
+chain = create_chain()
+pprint.pprint(chain)
+print("Valid before tampering:", verify(chain))
+
+chain[1]['event'] = 'issue C-999'      # tamper with block 1
+print("Valid after tampering :", verify(chain))
+
+chain = create_chain()
+chain[2]['previous_hash'] = 'fake'     # break the link
+print("Valid after broken link:", verify(chain))
+#Expected: True, then False, then False.
+
+#Step 6: Save a transcript for submission
+!python3 solution.py > transcript.txt 2>&1
+!cat transcript.txt
+#unittest writes its summary to stderr, so 2>&1 is needed to capture it. Download transcript.txt from the Colab file panel on the left.
+
+#Step 7: Cell 2: Result table as an image (optional)
+import matplotlib.pyplot as plt
+
+rows = [
+    ["test_valid_chain", "pass", "pass"],
+    ["test_tamper_rejected", "pass", "pass"],
+    ["test_broken_link_rejected", "pass", "pass"],
+    ["test_chain_length", "pass", "pass"],
+    ["test_genesis_previous_hash", "pass", "pass"],
+    ["test_hash_is_repeatable", "pass", "pass"],
+]
+fig, ax = plt.subplots(figsize=(8, 2.6))
+ax.axis("off")
+t = ax.table(cellText=rows, colLabels=["Test", "Expected", "Actual"], loc="center", cellLoc="center")
+t.auto_set_font_size(False); t.set_fontsize(10); t.scale(1, 1.4)
+plt.savefig("result_table.png", dpi=150, bbox_inches="tight")
+plt.show()
+
+#Run both after your earlier cells, so solution.py already exists. Then put the images in your PDF 
+#under the test output. Use either the diagram or the table; the lab only asks for one 
+#("result table/diagram"), but including both is fine.
+
+
