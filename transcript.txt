@@ -1,0 +1,11 @@
+test_broken_link_rejected (__main__.ReviewTests.test_broken_link_rejected) ... ok
+test_chain_length (__main__.ReviewTests.test_chain_length) ... ok
+test_genesis_previous_hash (__main__.ReviewTests.test_genesis_previous_hash) ... ok
+test_hash_is_repeatable (__main__.ReviewTests.test_hash_is_repeatable) ... ok
+test_tamper_rejected (__main__.ReviewTests.test_tamper_rejected) ... ok
+test_valid_chain (__main__.ReviewTests.test_valid_chain) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.001s
+
+OK
